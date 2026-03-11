@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Character Counter</title>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+/* Background */
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#7b5dc9,#6f86d6);
+}
+
+/* Dialog Box */
+
+.container{
+background:rgb(255, 255, 255);
+width:480px;
+padding:35px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 12px 30px rgba(0,0,0,0.25);
+}
+
+/* Title */
+
+h1{
+margin-bottom:25px;
+color:#333;
+}
+
+/* Textarea */
+
+textarea{
+width:100%;
+height:140px;
+padding:15px;
+font-size:16px;
+border-radius:10px;
+border:1px solid #ccc;
+resize:none;
+outline:none;
+}
+
+textarea:focus{
+border-color:#7b5dc9;
+}
+
+/* Counter */
+
+.counter{
+margin-top:15px;
+font-size:20px;
+font-weight:bold;
+color:#333;
+}
+
+/* Warning and error */
+
+.warning{
+color:orange;
+margin-top:10px;
+}
+
+.error{
+color:red;
+margin-top:10px;
+}
+
+/* Button */
+
+button{
+margin-top:20px;
+padding:12px 28px;
+border:none;
+border-radius:8px;
+font-size:16px;
+background:#7b5dc9;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#5c46b3;
+}
+
+button:disabled{
+background:#bbb;
+cursor:not-allowed;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function CharacterCounter(){
+
+const [text,setText] = React.useState("");
+const limit = 200;
+
+const handleChange = (event)=>{
+setText(event.target.value);
+}
+
+const handleSubmit = ()=>{
+alert("Your text has been submitted!");
+setText("");
+}
+
+return(
+
+<div className="container">
+
+<h1>Live Character Counter</h1>
+
+<textarea
+placeholder="Type your text here..."
+value={text}
+onChange={handleChange}
+/>
+
+<div className="counter">
+Characters: {text.length}
+</div>
+
+{text.length > 180 && text.length <= limit && (
+<p className="warning">You are near the character limit!</p>
+)}
+
+{text.length > limit && (
+<p className="error">Character limit exceeded!</p>
+)}
+
+<button
+onClick={handleSubmit}
+disabled={text.length === 0 || text.length > limit}
+>
+Submit
+</button>
+
+</div>
+
+)
+
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<CharacterCounter/>)
+
+</script>
+
+</body>
+</html>
